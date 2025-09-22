@@ -7,6 +7,7 @@ import Register from './pages/Register';
 import Profile from './pages/Profile';
 import FriendProfile from './pages/FriendProfile';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import Footer from './components/Footer';
 
 const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID || "";
 
@@ -22,6 +23,7 @@ const App: React.FC = () => {
           <Route path="/profile/:id" element={<Profile />} />
           <Route path="/friend/:id" element={<FriendProfile />} />
         </Routes>
+        <Footer/>
       </Router>
     </GoogleOAuthProvider>
   );

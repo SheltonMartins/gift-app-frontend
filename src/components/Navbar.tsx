@@ -14,12 +14,17 @@ const Navbar: React.FC = () => {
 
   return (
     <Nav>
-      <Link to="/" style={{ color: '#fff', fontWeight: '600', fontSize: '18px' }}>GiftApp</Link>
+      {/* Logo à esquerda */}
+      <Link to="/" style={{ color: '#fff', fontWeight: '600', fontSize: '18px' }}>
+        GiftApp
+      </Link>
 
+      {/* Botão Hamburger à direita */}
       <Hamburger onClick={() => setIsOpen(!isOpen)}>
         ☰
       </Hamburger>
 
+      {/* Links do menu */}
       <NavLinks isOpen={isOpen}>
         {userName && userId ? (
           <>

@@ -1,4 +1,3 @@
-// src/components/Navbar.styles.ts
 import styled from 'styled-components';
 
 export const Nav = styled.nav`
@@ -9,11 +8,6 @@ export const Nav = styled.nav`
   background-color: #007bff;
   color: #fff;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-
-  @media (max-width: 600px) {
-    flex-direction: column;
-    align-items: flex-start;
-  }
 `;
 
 export const NavLinks = styled.div<{ isOpen: boolean }>`
@@ -34,10 +28,15 @@ export const NavLinks = styled.div<{ isOpen: boolean }>`
   }
 
   @media (max-width: 600px) {
+    position: absolute;
+    top: 60px; /* ajusta conforme a altura da navbar */
+    left: 0;
+    right: 0;
+    background-color: #007bff;
     flex-direction: column;
-    width: 100%;
+    align-items: flex-start;
+    padding: 1rem 2rem;
     display: ${props => (props.isOpen ? 'flex' : 'none')};
-    margin-top: 0.5rem;
     gap: 0.5rem;
   }
 `;
@@ -46,7 +45,7 @@ export const Hamburger = styled.button`
   display: none;
   background: none;
   border: none;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   color: #fff;
   cursor: pointer;
 
