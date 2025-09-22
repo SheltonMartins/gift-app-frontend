@@ -8,24 +8,23 @@ import Profile from './pages/Profile';
 import FriendProfile from './pages/FriendProfile';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
-const CLIENT_ID = 'SEU_CLIENT_ID_DO_GOOGLE';
+const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID || "";
+
 const App: React.FC = () => {
   return (
     <GoogleOAuthProvider clientId={CLIENT_ID}>
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/profile/:id" element={<Profile />} />
-        <Route path="/friend/:id" element={<FriendProfile />} />
-      </Routes>
-    </Router>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/profile/:id" element={<Profile />} />
+          <Route path="/friend/:id" element={<FriendProfile />} />
+        </Routes>
+      </Router>
     </GoogleOAuthProvider>
   );
 };
 
 export default App;
-
-

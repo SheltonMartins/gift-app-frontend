@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api from '../services/api'; // seu axios configurado
+import api from '../services/api';
 import * as S from '../styles/Login.Style';
 
 interface GoogleWindow extends Window {
@@ -13,7 +13,6 @@ const Login: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
-  // Login tradicional
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -27,7 +26,6 @@ const Login: React.FC = () => {
     }
   };
 
-  // Inicializa botão de login Google
   useEffect(() => {
     const script = document.createElement('script');
     script.src = 'https://accounts.google.com/gsi/client';
@@ -38,7 +36,7 @@ const Login: React.FC = () => {
     script.onload = () => {
       const win = window as unknown as GoogleWindow;
       win.google.accounts.id.initialize({
-        client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID, // use sua variável de ambiente
+        client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID!,
         callback: handleGoogleResponse,
       });
       win.google.accounts.id.renderButton(
@@ -48,18 +46,16 @@ const Login: React.FC = () => {
     };
   }, []);
 
-  // Callback do Google
   const handleGoogleResponse = async (response: { credential: string }) => {
     const idToken = response.credential;
     try {
-      const res = await api.post('/auth/google', { id_token: idToken }); // CORREÇÃO: id_token
+      const res = await api.post('/auth/google', { id_token: idToken });
       const data = res.data;
       localStorage.setItem('token', data.token);
       localStorage.setItem('userId', data.userId);
       localStorage.setItem('userName', data.name);
       navigate(`/profile/${data.userId}`);
     } catch (err: any) {
-      console.error(err);
       setError(err.response?.data.error || 'Erro ao logar com Google');
     }
   };
@@ -70,7 +66,6 @@ const Login: React.FC = () => {
         <h2>Login</h2>
         {error && <S.Error>{error}</S.Error>}
 
-        {/* Formulário tradicional */}
         <S.Form onSubmit={handleLogin}>
           <S.Input
             type="email"
@@ -91,7 +86,6 @@ const Login: React.FC = () => {
 
         <S.Separator>ou</S.Separator>
 
-        {/* Botão do Google */}
         <div
           id="google-signin-button"
           style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import api from '../services/api';
-import { GiftCard, GiftsContainer } from '../styles/GiftsList.styles';
-
+import GiftCard from './GiftCard';
+import { GiftsContainer } from '../styles/GiftsList.styles';
 
 interface Gift {
   id: number;
@@ -27,7 +27,7 @@ const GiftsList: React.FC<GiftsListProps> = ({ userId }) => {
       const token = localStorage.getItem('token');
       const res = await api.get(`/gifts/${userId}`, { headers: { Authorization: `Bearer ${token}` } });
       setGifts(res.data);
-    } catch (err) {
+    } catch {
       setError('Erro ao carregar presentes');
     }
   };
@@ -53,19 +53,14 @@ const GiftsList: React.FC<GiftsListProps> = ({ userId }) => {
   return (
     <GiftsContainer>
       {gifts.map(gift => (
-        <GiftCard key={gift.id}>
-          <h4>{gift.title}</h4>
-          {gift.description && <p>{gift.description}</p>}
-          {/*gift.image_url && <img src={gift.image_url} alt={gift.title} />*/}
-          {gift.product_link && (
-            <p>
-              <a href={gift.product_link} target="_blank" rel="noopener noreferrer">Link do presente</a>
-            </p>
-          )}
-          {currentUserId === userId && (
-            <button onClick={() => handleDelete(gift.id)}>Excluir</button>
-          )}
-        </GiftCard>
+        <GiftCard
+          key={gift.id}
+          title={gift.title}
+          description={gift.description}
+          image_url={gift.image_url}
+          product_link={gift.product_link}
+          onDelete={currentUserId === userId ? () => handleDelete(gift.id) : undefined}
+        />
       ))}
     </GiftsContainer>
   );

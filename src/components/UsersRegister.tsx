@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../services/api';
 
 interface UserForm {
   name: string;
   email: string;
   password: string;
+  nickname?: string;
   bio?: string;
   profile_picture?: string;
 }
@@ -14,6 +15,7 @@ const UsersRegister = () => {
     name: '',
     email: '',
     password: '',
+    nickname: '',
     bio: '',
     profile_picture: ''
   });
@@ -27,9 +29,9 @@ const UsersRegister = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${process.env.REACT_APP_API_URL}/users/register`, form);
+      const res = await api.post('/users/register', form);
       setMessage(`Usuário cadastrado com sucesso! ID: ${res.data.userId}`);
-      setForm({ name: '', email: '', password: '', bio: '', profile_picture: '' });
+      setForm({ name: '', email: '', password: '', nickname: '', bio: '', profile_picture: '' });
     } catch (err: any) {
       if (err.response) {
         setMessage(`Erro: ${err.response.data.error}`);
@@ -42,11 +44,15 @@ const UsersRegister = () => {
   return (
     <div>
       <h2>Cadastro de Usuário</h2>
-      {message && <p style={{ color: 'green' }}>{message}</p>}
+      {message && <p style={{ color: message.startsWith("Erro") ? "red" : "green" }}>{message}</p>}
       <form onSubmit={handleSubmit}>
         <div>
           <label>Nome:</label>
           <input type="text" name="name" value={form.name} onChange={handleChange} required />
+        </div>
+        <div>
+          <label>Nickname:</label>
+          <input type="text" name="nickname" value={form.nickname} onChange={handleChange} required />
         </div>
         <div>
           <label>Email:</label>

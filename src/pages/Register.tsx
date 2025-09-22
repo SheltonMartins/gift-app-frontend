@@ -5,16 +5,16 @@ import { Container, Title, ErrorMessage, Form, Input, Button } from '../styles/R
 
 const Register: React.FC = () => {
   const [name, setName] = useState('');
+  const [nickname, setNickname] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [nickname, setNickname] = useState('');
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await api.post('/users/register', { name, email, password, nickname });
+      await api.post('/users/register', { name, nickname, email, password });
       alert('Cadastro realizado com sucesso!');
       navigate('/login');
     } catch (err: any) {

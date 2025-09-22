@@ -1,8 +1,6 @@
-// src/components/Navbar.tsx
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Hamburger, Nav, NavLinks } from '../styles/Navbar.Styles';
-
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);

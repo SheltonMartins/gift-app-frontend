@@ -51,7 +51,7 @@ const FriendProfile: React.FC = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       alert('Amizade removida!');
-      navigate('/profile/' + localStorage.getItem('userId'));
+      navigate(`/profile/${localStorage.getItem('userId')}`);
     } catch (err: any) {
       alert(err.response?.data.error || 'Erro ao remover amizade');
     }

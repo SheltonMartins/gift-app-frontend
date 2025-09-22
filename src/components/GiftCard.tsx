@@ -6,9 +6,10 @@ interface GiftCardProps {
   description?: string;
   image_url?: string;
   product_link?: string;
+  onDelete?: () => void;
 }
 
-const GiftCard: React.FC<GiftCardProps> = ({ title, description, image_url, product_link }) => {
+const GiftCard: React.FC<GiftCardProps> = ({ title, description, image_url, product_link, onDelete }) => {
   return (
     <Card>
       <Title>{title}</Title>
@@ -21,6 +22,7 @@ const GiftCard: React.FC<GiftCardProps> = ({ title, description, image_url, prod
           </ProductLink>
         </p>
       )}
+      {onDelete && <button onClick={onDelete}>Excluir</button>}
     </Card>
   );
 };

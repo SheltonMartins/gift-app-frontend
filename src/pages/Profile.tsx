@@ -5,7 +5,6 @@ import GiftsList from '../components/GiftsList';
 import GiftForm from '../components/GiftForm';
 import { Button, Card, FriendsList, Input, ProfileContainer, SectionTitle, UserHeader } from '../styles/Profile.styles';
 
-
 interface User {
   id: number;
   name: string;
@@ -27,7 +26,9 @@ const Profile: React.FC = () => {
   const fetchProfile = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await api.get(`/users/${userId}`, { headers: { Authorization: `Bearer ${token}` } });
+      const res = await api.get(`/users/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setUser(res.data);
     } catch {
       setError('Erro ao carregar perfil');
@@ -37,7 +38,9 @@ const Profile: React.FC = () => {
   const fetchFriends = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await api.get(`/friends`, { headers: { Authorization: `Bearer ${token}` } });
+      const res = await api.get(`/friends`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setFriends(res.data);
     } catch {
       console.log('Erro ao carregar amigos');
@@ -53,7 +56,9 @@ const Profile: React.FC = () => {
     if (!friendNickname) return;
     try {
       const token = localStorage.getItem('token');
-      await api.post(`/friends`, { nickname: friendNickname }, { headers: { Authorization: `Bearer ${token}` } });
+      await api.post(`/friends`, { nickname: friendNickname }, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setFriendNickname('');
       fetchFriends();
     } catch (err: any) {

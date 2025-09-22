@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 import api from '../services/api';
 import { Button, ErrorMessage, FormContainer, Input, InputGroup } from '../styles/GiftForm.Styles';
 
-
 interface Props {
-  userId?: number;
+  userId: number;
   onGiftAdded?: () => void;
 }
 
-const GiftForm: React.FC<Props> = ({ onGiftAdded }) => {
+const GiftForm: React.FC<Props> = ({ userId, onGiftAdded }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [image_url, setImageUrl] = useState('');
@@ -24,8 +23,9 @@ const GiftForm: React.FC<Props> = ({ onGiftAdded }) => {
 
     try {
       const token = localStorage.getItem('token');
-      await api.post('/gifts',
-        { title, description, image_url, product_link },
+      await api.post(
+        '/gifts',
+        { user_id: userId, title, description, image_url, product_link },
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
