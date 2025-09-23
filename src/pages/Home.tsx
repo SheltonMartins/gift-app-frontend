@@ -1,6 +1,13 @@
 import React from 'react';
-import { Card, CardsContainer, CardText, CardTitle, HomeContainer, Subtitle, Title } from '../styles/Home.Styled';
-
+import { 
+  Card, 
+  CardsContainer, 
+  CardText, 
+  CardTitle, 
+  HomeContainer, 
+  Subtitle, 
+  Title 
+} from '../styles/Home.Styled';
 
 const Home: React.FC = () => {
   return (
@@ -31,6 +38,15 @@ const Home: React.FC = () => {
           <CardTitle>😎 Fácil e Divertido</CardTitle>
           <CardText>
             Interface simples e divertida. Você consegue ver tudo de um jeito rápido e até brincar de adivinhar o que cada um quer!
+          </CardText>
+        </Card>
+
+        <Card>
+          <CardTitle>📱 Adicione à Tela Inicial</CardTitle>
+          <CardText>
+            Para usar o GiftApp como um aplicativo no seu iPhone, abra este site no navegador Safari, toque no ícone de Compartilhar (uma caixa com uma seta para cima), role a lista de opções para baixo e toque em <strong>Adicionar à Tela de Início</strong>.
+            <br /><br />
+            <strong>Observação:</strong> Não foi possível publicar na Apple Store devido a custos, mas você ainda pode usar o app diretamente do navegador como se fosse um app nativo!
           </CardText>
         </Card>
       </CardsContainer>
