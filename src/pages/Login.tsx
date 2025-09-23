@@ -86,9 +86,9 @@ const Login: React.FC = () => {
 
         <S.Separator>ou</S.Separator>
 
-        <div
+        <div 
           id="google-signin-button"
-          style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}
+          style={{ display: 'none', justifyContent: 'center', marginTop: '10px' }}
         />
       </S.FormWrapper>
     </S.Container>
