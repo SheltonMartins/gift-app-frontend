@@ -51,6 +51,20 @@ export const OrText = styled.p`
   text-align: center;
 `;
 
+export const Toast = styled.div`
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #4caf50;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  opacity: 0.95;
+  z-index: 1000;
+`;
+
 // Botão de cadastro
 export const RegisterButton = styled.button`
   margin-top: 2rem;

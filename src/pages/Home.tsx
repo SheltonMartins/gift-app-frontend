@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   Card, 
   CardsContainer, 
@@ -10,14 +10,26 @@ import {
   Title,
   BigButton, 
   OrText,
-  SmallButton
+  SmallButton,
+  Toast
 } from '../styles/Home.Styled';
 import { useNavigate } from "react-router-dom";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
+  const [showToast, setShowToast] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setShowToast(false), 5000); // some depois de 5s
+    return () => clearTimeout(timer);
+  }, []);
+
+
   return (
     <HomeContainer>
+            {showToast && (
+        <Toast>✨ Nova funcionalidade disponível: agora os amigos adicionados serão amizades autamaticamente recíprocas!</Toast>
+      )}
       <Title>Bem-vindo ao GiftApp!</Title>
       <Subtitle>
         Aqui você pode adicionar seus amigos e descobrir exatamente o que eles querem ganhar em qualquer data comemorativa! 
