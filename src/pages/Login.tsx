@@ -84,7 +84,6 @@ const Login: React.FC = () => {
           <S.Button type="submit">Entrar</S.Button>
         </S.Form>
 
-        <S.Separator>ou</S.Separator>
 
         <div 
           id="google-signin-button"

@@ -12,6 +12,72 @@ export const HomeContainer = styled.div`
   font-family: 'Arial', sans-serif;
 `;
 
+export const BigButton = styled.button`
+  background: #6a1b9a;
+  color: white;
+  font-size: 1.5rem;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 2rem;
+  transition: background 0.3s ease;
+
+  &:hover {
+    background: #4a148c;
+  }
+`;
+
+export const SmallButton = styled.button`
+  background: #eeeeee;
+  color: #333;
+  font-size: 1rem;
+  padding: 0.6rem 1.2rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 0.8rem;
+  transition: background 0.3s ease;
+
+  &:hover {
+    background: #ddd;
+  }
+`;
+
+export const OrText = styled.p`
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: #666;
+  text-align: center;
+`;
+
+// Botão de cadastro
+export const RegisterButton = styled.button`
+  margin-top: 2rem;
+  padding: 1rem 2.5rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff;
+  background: linear-gradient(135deg, #6a1b9a, #ab47bc);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+
+  &:hover {
+    background: linear-gradient(135deg, #4a148c, #8e24aa);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  }
+
+  @media (max-width: 768px) {
+    font-size: 1.2rem;
+    padding: 0.8rem 2rem;
+  }
+`;
+
+
 // Título principal
 export const Title = styled.h1`
   font-size: 3rem;

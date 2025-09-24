@@ -5,11 +5,17 @@ import {
   CardText, 
   CardTitle, 
   HomeContainer, 
+  RegisterButton, 
   Subtitle, 
-  Title 
+  Title,
+  BigButton, 
+  OrText,
+  SmallButton
 } from '../styles/Home.Styled';
+import { useNavigate } from "react-router-dom";
 
 const Home: React.FC = () => {
+  const navigate = useNavigate();
   return (
     <HomeContainer>
       <Title>Bem-vindo ao GiftApp!</Title>
@@ -18,6 +24,17 @@ const Home: React.FC = () => {
         <br />
         Finalmente o marido vai saber qual presente dar para a esposa, o amigo secreto não vai ser mais um drama, e até o namorado(a) vai arrasar na surpresa!
       </Subtitle>
+
+      <BigButton onClick={() => navigate('/register')}>
+        🚀 Cadastre-se Agora
+      </BigButton>
+
+      
+      <OrText>ou</OrText>
+
+      <SmallButton onClick={() => navigate("/login")}>
+        Faça login
+      </SmallButton>
 
       <CardsContainer>
         <Card>
