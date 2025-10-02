@@ -9,51 +9,49 @@ export const Container = styled.div`
   box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 `;
 
-export const Header = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 20px;
+export const Title = styled.h2`
+  font-size: 24px;
   margin-bottom: 20px;
-`;
-
-export const ProfileImage = styled.img`
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #4a90e2;
-`;
-
-export const Name = styled.h2`
-  font-size: 26px;
   color: #333;
-  margin: 0;
 `;
 
-export const Nickname = styled.p`
-  margin: 2px 0 0 0;
+export const FriendItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  background-color: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+`;
+
+export const FriendName = styled.span`
+  font-weight: bold;
+  color: #333;
+  font-size: 18px;
+`;
+
+export const FriendNickname = styled.span`
   font-size: 14px;
-  color: #777; /* mais claro que o nome */
-`;
-
-export const Bio = styled.p`
-  font-size: 16px;
-  color: #666;
-  margin-top: 5px;
-`;
-
-export const GiftsSection = styled.div`
-  margin-top: 30px;
+  color: #888;
+  margin-top: 2px;
 `;
 
 export const ButtonsContainer = styled.div`
-  margin-top: 25px;
+  margin-top: 20px;
   display: flex;
   gap: 10px;
 `;
 
 export const Button = styled.button<{ danger?: boolean }>`
-  padding: 12px 18px;
+  padding: 10px 16px;
   font-size: 16px;
   font-weight: bold;
   border: none;

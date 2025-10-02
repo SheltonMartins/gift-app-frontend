@@ -5,7 +5,7 @@ export const Container = styled.div`
   max-width: 400px;
   margin: 50px auto;
   padding: 30px;
-  background-color: #f9f9f9;
+  background-color: #ADD8E6;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   text-align: center;

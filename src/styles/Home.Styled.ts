@@ -8,8 +8,9 @@ export const HomeContainer = styled.div`
   align-items: center;
   padding: 2rem;
   min-height: 100vh;
-  background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+  background: linear-gradient(135deg, #ADD8E6; 0%, #ADD8E6; 100%);
   font-family: 'Arial', sans-serif;
+  background-color: #ADD8E6;
 `;
 
 export const BigButton = styled.button`

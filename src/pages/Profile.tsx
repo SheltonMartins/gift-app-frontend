@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import GiftsList from '../components/GiftsList';
 import GiftForm from '../components/GiftForm';
-import { Button, Card, FriendsList, Input, ProfileContainer, SectionTitle, UserHeader } from '../styles/Profile.styles';
+import { Button, Card, Input, ProfileContainer, SectionTitle, UserHeader } from '../styles/Profile.styles';
 
 interface User {
   id: number;
@@ -16,8 +16,8 @@ interface User {
 
 const Profile: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
-  const [friends, setFriends] = useState<User[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [friendNickname, setFriendNickname] = useState('');
 
@@ -35,21 +35,8 @@ const Profile: React.FC = () => {
     }
   };
 
-  const fetchFriends = async () => {
-    try {
-      const token = localStorage.getItem('token');
-      const res = await api.get(`/friends`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setFriends(res.data);
-    } catch {
-      console.log('Erro ao carregar amigos');
-    }
-  };
-
   useEffect(() => {
     fetchProfile();
-    fetchFriends();
   }, [userId]);
 
   const handleAddFriend = async () => {
@@ -60,7 +47,7 @@ const Profile: React.FC = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       setFriendNickname('');
-      fetchFriends();
+      fetchProfile(); // atualiza perfil se necessário
     } catch (err: any) {
       alert(err.response?.data.error || 'Erro ao adicionar amigo');
     }
@@ -102,14 +89,12 @@ const Profile: React.FC = () => {
       </Card>
 
       <Card>
-        <SectionTitle>Meus Amigos</SectionTitle>
-        <FriendsList>
-          {friends.map(friend => (
-            <li key={friend.id}>
-              <Link to={`/friend/${friend.id}`}>{friend.name}</Link>
-            </li>
-          ))}
-        </FriendsList>
+        <Button
+          onClick={() => navigate(`/friends/${user.id}`)}
+          style={{ width: '100%', marginTop: '0.5rem' }}
+        >
+          Ver meus amigos
+        </Button>
       </Card>
     </ProfileContainer>
   );

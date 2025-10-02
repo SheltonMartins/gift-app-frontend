@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Title, Description, Image, ProductLink } from '../styles/GiftCard.Styles';
+import { Card, Title, Description, Image, ProductLink, DeleteButton } from '../styles/GiftCard.Styles';
 
 interface GiftCardProps {
   title: string;
@@ -18,11 +18,11 @@ const GiftCard: React.FC<GiftCardProps> = ({ title, description, image_url, prod
       {product_link && (
         <p>
           <ProductLink href={product_link} target="_blank" rel="noreferrer">
-            Comprar
+            Ver presente no site
           </ProductLink>
         </p>
       )}
-      {onDelete && <button onClick={onDelete}>Excluir</button>}
+      {onDelete && <DeleteButton onClick={onDelete}>Apagar</DeleteButton>}
     </Card>
   );
 };

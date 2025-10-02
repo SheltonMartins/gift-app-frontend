@@ -7,6 +7,7 @@ import {
   Header,
   ProfileImage,
   Name,
+  Nickname,
   Bio,
   GiftsSection,
   ButtonsContainer,
@@ -17,6 +18,7 @@ import {
 interface Friend {
   id: number;
   name: string;
+  nickname?: string;
   bio?: string;
   profile_picture?: string;
 }
@@ -66,6 +68,7 @@ const FriendProfile: React.FC = () => {
         {friend.profile_picture && <ProfileImage src={friend.profile_picture} alt={friend.name} />}
         <div>
           <Name>{friend.name}</Name>
+          {friend.nickname && <Nickname>@{friend.nickname}</Nickname>}
           {friend.bio && <Bio>{friend.bio}</Bio>}
         </div>
       </Header>
@@ -74,15 +77,17 @@ const FriendProfile: React.FC = () => {
         <h3>Lista de Presentes</h3>
         <GiftsList userId={friend.id} />
       </GiftsSection>
-
-      <ButtonsContainer>
-        <Button onClick={() => navigate(`/profile/${localStorage.getItem('userId')}`)}>
-          Voltar ao meu perfil
-        </Button>
-        <Button danger onClick={handleRemoveFriend}>
-          Remover amizade
-        </Button>
-      </ButtonsContainer>
+<ButtonsContainer>
+  <Button onClick={() => navigate(`/profile/${localStorage.getItem('userId')}`)}>
+    Voltar ao meu perfil
+  </Button>
+  <Button onClick={() => navigate(`/friends-of/${friend.id}`)}>
+    Ver amigos de {friend.name}
+  </Button>
+  <Button danger onClick={handleRemoveFriend}>
+    Remover amizade
+  </Button>
+</ButtonsContainer>
     </Container>
   );
 };

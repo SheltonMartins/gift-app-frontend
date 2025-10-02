@@ -8,6 +8,8 @@ import Profile from './pages/Profile';
 import FriendProfile from './pages/FriendProfile';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import Footer from './components/Footer';
+import FriendsListPage from './pages/FriendsListPage';
+import FriendsOfFriendPage from './pages/FriendsOfFriendPage';
 
 const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID || "";
 
@@ -22,6 +24,9 @@ const App: React.FC = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/profile/:id" element={<Profile />} />
           <Route path="/friend/:id" element={<FriendProfile />} />
+          <Route path="/friends/:id" element={<FriendsListPage />} />
+          <Route path="/friends/:id" element={<FriendsOfFriendPage />} />
+          <Route path="/friends-of/:id" element={<FriendsOfFriendPage />} />
         </Routes>
         <Footer/>
       </Router>
