@@ -9,6 +9,40 @@ export const Container = styled.div`
   box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 `;
 
+export const HeaderRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+`;
+
+export const StyledButton = styled.button`
+  padding: 8px 16px;
+  background-color: #0077ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+
+  &:hover {
+    background-color: #005fcc;
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+`;
+
+
+export const Title = styled.h2`
+  font-size: 22px;
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+`;
+
 export const FriendItem = styled.div`
   padding: 12px 16px;
   border-bottom: 1px solid #ddd;

@@ -4,6 +4,7 @@ import api from '../services/api';
 import GiftsList from '../components/GiftsList';
 import GiftForm from '../components/GiftForm';
 import { Button, Card, Input, ProfileContainer, SectionTitle, UserHeader } from '../styles/Profile.styles';
+import { Nickname } from '../styles/FriendProfile.Styles';
 
 interface User {
   id: number;
@@ -48,6 +49,7 @@ const Profile: React.FC = () => {
       });
       setFriendNickname('');
       fetchProfile(); // atualiza perfil se necessário
+      alert('Nova amizade criada com sucesso!');
     } catch (err: any) {
       alert(err.response?.data.error || 'Erro ao adicionar amigo');
     }
@@ -62,6 +64,7 @@ const Profile: React.FC = () => {
         <UserHeader>
           {user.profile_picture && <img src={user.profile_picture} alt={user.name} />}
           <h2>{user.name}</h2>
+          <Nickname>@{user.nickname}</Nickname>
         </UserHeader>
         {user.bio && <p>{user.bio}</p>}
       </Card>

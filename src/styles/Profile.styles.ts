@@ -35,8 +35,9 @@ export const UserHeader = styled.div`
   }
 
   h2 {
-    margin: 0;
+    margin: -10;
     font-size: 1.8rem;
+    padding: -10;
   }
 
   @media (max-width: 600px) {

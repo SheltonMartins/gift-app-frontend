@@ -6,8 +6,11 @@ import {
   FriendItem,
   FriendName,
   FriendNickname,
-  ErrorMessage
+  ErrorMessage,
+  HeaderRow,
+  Title
 } from '../styles/FriendsListPage.Styles';
+import { StyledButton } from '../styles/FriendsListPage.Styles';
 
 interface Friend {
   id: number;
@@ -43,7 +46,13 @@ const FriendsListPage: React.FC = () => {
 
   return (
     <Container>
-      <h2>Amigos</h2>
+      <HeaderRow>
+        <Title>Amigos</Title>
+        <StyledButton onClick={() => navigate(`/profile/${localStorage.getItem('userId')}`)}>
+          Voltar ao meu perfil
+        </StyledButton>
+      </HeaderRow>
+
       {friends.map(friend => (
         <FriendItem key={friend.id} onClick={() => navigate(`/friend/${friend.id}`)}>
           <FriendName>{friend.name}</FriendName>

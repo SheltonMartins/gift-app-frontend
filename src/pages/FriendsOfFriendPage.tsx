@@ -41,8 +41,8 @@ const FriendsOfFriendPage: React.FC = () => {
   const fetchFriends = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await api.get(`/users/${id}/friends`, {
-        headers: { Authorization: `Bearer ${token}` },
+        const res = await api.get(`/friends/${id}`, {
+          headers: { Authorization: `Bearer ${token}` },
       });
       setFriends(res.data);
     } catch {

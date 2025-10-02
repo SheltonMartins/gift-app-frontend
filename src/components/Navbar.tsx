@@ -12,10 +12,18 @@ const Navbar: React.FC = () => {
     window.location.href = '/login';
   };
 
+  const handleLinkClick = () => {
+    setIsOpen(false); // fecha o menu quando o usuário clica em qualquer link
+  };
+
   return (
     <Nav>
       {/* Logo à esquerda */}
-      <Link to="/" style={{ color: '#fff', fontWeight: '600', fontSize: '18px' }}>
+      <Link 
+        to="/" 
+        onClick={handleLinkClick} 
+        style={{ color: '#fff', fontWeight: '600', fontSize: '18px' }}
+      >
         GiftApp
       </Link>
 
@@ -28,13 +36,13 @@ const Navbar: React.FC = () => {
       <NavLinks isOpen={isOpen}>
         {userName && userId ? (
           <>
-            <Link to={`/profile/${userId}`}>Perfil</Link>
+            <Link to={`/profile/${userId}`} onClick={handleLinkClick}>Perfil</Link>
             <LogoutButton onClick={handleLogout}>Logout</LogoutButton>
           </>
         ) : (
           <>
-            <Link to="/login">Login</Link>
-            <Link to="/register">Registrar</Link>
+            <Link to="/login" onClick={handleLinkClick}>Login</Link>
+            <Link to="/register" onClick={handleLinkClick}>Registrar</Link>
           </>
         )}
       </NavLinks>
