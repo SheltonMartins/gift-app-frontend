@@ -27,6 +27,7 @@ const FriendProfile: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [friend, setFriend] = useState<Friend | null>(null);
+  const [friendsCount, setFriendsCount] = useState<number>(0);
   const [error, setError] = useState<string | null>(null);
 
   const fetchFriend = async () => {
@@ -36,13 +37,29 @@ const FriendProfile: React.FC = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       setFriend(res.data);
+      console.log(res.data)
     } catch {
       setError('Erro ao carregar perfil do amigo');
     }
   };
 
+  const fetchFriendsCount = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const res = await api.get(`/users/${id}/friends`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setFriendsCount(res.data.length);
+    } catch {
+      console.log("Erro ao carregar quantidade de amigos");
+    }
+  };
+
   useEffect(() => {
-    if (id) fetchFriend();
+    if (id) {
+      fetchFriend();
+      fetchFriendsCount();
+    }
   }, [id]);
 
   const handleRemoveFriend = async () => {
@@ -77,17 +94,18 @@ const FriendProfile: React.FC = () => {
         <h3>Lista de Presentes</h3>
         <GiftsList userId={friend.id} />
       </GiftsSection>
-<ButtonsContainer>
-  <Button onClick={() => navigate(`/profile/${localStorage.getItem('userId')}`)}>
-    Voltar ao meu perfil
-  </Button>
-  <Button onClick={() => navigate(`/friends-of/${friend.id}`)}>
-    Ver amigos de {friend.name}
-  </Button>
-  <Button danger onClick={handleRemoveFriend}>
-    Remover amizade
-  </Button>
-</ButtonsContainer>
+
+      <ButtonsContainer>
+        <Button onClick={() => navigate(`/profile/${localStorage.getItem('userId')}`)}>
+          Voltar ao meu perfil
+        </Button>
+        <Button onClick={() => navigate(`/friends-of/${friend.id}`)}>
+          Ver amigos de {friend.name} 
+        </Button>
+        <Button danger onClick={handleRemoveFriend}>
+          Remover amizade
+        </Button>
+      </ButtonsContainer>
     </Container>
   );
 };

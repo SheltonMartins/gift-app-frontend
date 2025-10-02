@@ -80,7 +80,7 @@ const Profile: React.FC = () => {
       </Card>
 
       <Card>
-        <SectionTitle>Adicionar Amigo</SectionTitle>
+        <SectionTitle>Adicionar Amigo Pelo Nickname</SectionTitle>
         <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
           <Input
             placeholder="Digite o nickname do amigo"

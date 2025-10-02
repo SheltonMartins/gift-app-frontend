@@ -62,7 +62,9 @@ const FriendsOfFriendPage: React.FC = () => {
 
   return (
     <Container>
-      <Title>Amigos de {friendName}</Title>
+      <Title>
+        Amigos de {friendName} <h6>({friends.length})</h6>
+      </Title>
 
       {friends.map(friend => (
         <FriendItem key={friend.id} onClick={() => navigate(`/friend/${friend.id}`)}>
