@@ -48,9 +48,12 @@ const FriendsListPage: React.FC = () => {
     <Container>
       <HeaderRow>
         <Title>Amigos</Title>
-        <StyledButton onClick={() => navigate(`/profile/${localStorage.getItem('userId')}`)}>
-          Voltar ao meu perfil
-        </StyledButton>
+        <StyledButton onClick={() => {
+  const userStorage = localStorage.getItem('user');
+  navigate(`/profile/${userStorage ? JSON.parse(userStorage).id : ''}`);
+}}>
+  Voltar ao meu perfil
+</StyledButton>
       </HeaderRow>
 
       {friends.map(friend => (

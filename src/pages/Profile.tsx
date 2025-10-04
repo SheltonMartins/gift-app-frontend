@@ -22,7 +22,10 @@ const Profile: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [friendNickname, setFriendNickname] = useState('');
 
-  const userId = Number(id || localStorage.getItem('userId'));
+  const userId = Number(id || (() => {
+    const userStorage = localStorage.getItem('user');
+    return userStorage ? JSON.parse(userStorage).id : null;
+  })());
 
   const fetchProfile = async () => {
     try {
@@ -48,7 +51,7 @@ const Profile: React.FC = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       setFriendNickname('');
-      fetchProfile(); // atualiza perfil se necessário
+      fetchProfile(); // atualiza perfil
       alert('Nova amizade criada com sucesso!');
     } catch (err: any) {
       alert(err.response?.data.error || 'Erro ao adicionar amigo');
@@ -93,7 +96,10 @@ const Profile: React.FC = () => {
 
       <Card>
         <Button
-          onClick={() => navigate(`/friends/${user.id}`)}
+          onClick={() => {
+            const userStorage = localStorage.getItem('user');
+            navigate(`/friends/${userStorage ? JSON.parse(userStorage).id : ''}`);
+          }}
           style={{ width: '100%', marginTop: '0.5rem' }}
         >
           Ver meus amigos

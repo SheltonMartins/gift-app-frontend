@@ -74,10 +74,10 @@ const FriendsOfFriendPage: React.FC = () => {
       ))}
 
       <ButtonsContainer>
-        <Button onClick={() => navigate(`/friend/${id}`)}>
-          Retornar ao perfil
-        </Button>
-      </ButtonsContainer>
+  <Button onClick={() => navigate(`/friend/${id}`)}>
+    Retornar ao perfil
+  </Button>
+</ButtonsContainer>
     </Container>
   );
 };

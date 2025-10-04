@@ -10,6 +10,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import Footer from './components/Footer';
 import FriendsListPage from './pages/FriendsListPage';
 import FriendsOfFriendPage from './pages/FriendsOfFriendPage';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID || "";
 

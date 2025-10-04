@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import * as S from '../styles/Login.Style';
@@ -18,9 +18,8 @@ const Login: React.FC = () => {
     try {
       const res = await api.post('/users/login', { email, password });
       localStorage.setItem('token', res.data.token);
-      localStorage.setItem('userId', res.data.userId);
-      localStorage.setItem('userName', res.data.name);
-      navigate(`/profile/${res.data.userId}`);
+      localStorage.setItem('user', JSON.stringify(res.data.user));
+      navigate(`/profile/${res.data.user.id}`);
     } catch (err: any) {
       setError(err.response?.data.error || 'Erro ao logar');
     }
@@ -52,9 +51,8 @@ const Login: React.FC = () => {
       const res = await api.post('/auth/google', { id_token: idToken });
       const data = res.data;
       localStorage.setItem('token', data.token);
-      localStorage.setItem('userId', data.userId);
-      localStorage.setItem('userName', data.name);
-      navigate(`/profile/${data.userId}`);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      navigate(`/profile/${data.user.id}`);
     } catch (err: any) {
       setError(err.response?.data.error || 'Erro ao logar com Google');
     }
@@ -83,7 +81,6 @@ const Login: React.FC = () => {
           />
           <S.Button type="submit">Entrar</S.Button>
         </S.Form>
-
 
         <div 
           id="google-signin-button"

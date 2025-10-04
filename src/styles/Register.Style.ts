@@ -34,6 +34,7 @@ export const Input = styled.input`
   border-radius: 8px;
   border: 1px solid #ccc;
   transition: border 0.2s;
+  width: 100%;
 
   &:focus {
     border-color: #4a90e2;
@@ -59,4 +60,27 @@ export const Button = styled.button`
   &:active {
     background-color: #2d5e91;
   }
+`;
+
+// Wrapper para o nickname com @
+export const NicknameWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+
+  &:focus-within {
+    border-color: #4a90e2;
+  }
+`;
+
+export const AtSymbol = styled.span`
+  background-color: #f0f0f0;
+  padding: 0 12px;
+  font-weight: bold;
+  color: #555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;

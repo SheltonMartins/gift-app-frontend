@@ -52,7 +52,6 @@ const FriendProfile: React.FC = () => {
       const res = await api.get(`/friends/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      // res.data deve ser array de amigos (se a rota estiver correta)
       if (Array.isArray(res.data)) setFriendsCount(res.data.length);
       else if (res.data && res.data.length !== undefined) setFriendsCount(res.data.length);
       else setFriendsCount(0);
@@ -64,13 +63,14 @@ const FriendProfile: React.FC = () => {
   const checkIfMyFriend = async () => {
     try {
       const token = localStorage.getItem('token');
-      const myId = localStorage.getItem('userId');
-      if (!myId) return;
+      const storedUser = localStorage.getItem('user');
+      if (!storedUser) return;
+      const myId = JSON.parse(storedUser).id;
 
       const res = await api.get(`/friends`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      // rota /friends retorna meus amigos (array)
+
       if (Array.isArray(res.data)) {
         const exists = res.data.some((f: Friend) => f.id === Number(id));
         setIsMyFriend(exists);
@@ -119,7 +119,6 @@ const FriendProfile: React.FC = () => {
     setLoadingAdd(true);
     try {
       const token = localStorage.getItem('token');
-      // usa a mesma rota que funciona no Profile (adicionar por nickname)
       await api.post(
         `/friends`,
         { nickname: friend.nickname },
@@ -153,7 +152,12 @@ const FriendProfile: React.FC = () => {
       </Header>
 
       <ButtonsContainer>
-        <Button onClick={() => navigate(`/profile/${localStorage.getItem('userId')}`)}>
+        <Button
+          onClick={() => {
+            const userStorage = localStorage.getItem('user');
+            navigate(`/profile/${userStorage ? JSON.parse(userStorage).id : ''}`);
+          }}
+        >
           Voltar ao meu perfil
         </Button>
 

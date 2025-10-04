@@ -1,11 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Hamburger, LogoutButton, Nav, NavLinks } from '../styles/Navbar.Styles';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const userName = localStorage.getItem('userName');
-  const userId = localStorage.getItem('userId');
+  const [user, setUser] = useState<{ id: number; name: string } | null>(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch {
+        setUser(null);
+      }
+    }
+  }, []);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -34,9 +44,11 @@ const Navbar: React.FC = () => {
 
       {/* Links do menu */}
       <NavLinks isOpen={isOpen}>
-        {userName && userId ? (
+        {user ? (
           <>
-            <Link to={`/profile/${userId}`} onClick={handleLinkClick}>Perfil</Link>
+            <Link to={`/profile/${user.id}`} onClick={handleLinkClick}>
+              {user.name.split(' ')[0] || 'Perfil'}
+            </Link>
             <LogoutButton onClick={handleLogout}>Logout</LogoutButton>
           </>
         ) : (
