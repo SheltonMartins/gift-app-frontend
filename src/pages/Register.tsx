@@ -39,11 +39,11 @@ const Register: React.FC = () => {
 
   return (
     <Container style={{ maxWidth: '400px', marginTop: '50px' }}>
-      <h2 className="mb-4 text-center">Cadastre-se para começar a ganhar presentes!</h2>
+      <h2 className="mb-4 text-center">Cadastre-se para compartilhar com os amigos sua lista de presentes!</h2>
       {error && <Alert variant="danger">{error}</Alert>}
       <Form onSubmit={handleRegister}>
         <Form.Group className="mb-3">
-          <Form.Label>Nome</Form.Label>
+
           <Form.Control
             type="text"
             placeholder="Nome"
@@ -54,7 +54,7 @@ const Register: React.FC = () => {
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label>Sobrenome</Form.Label>
+ 
           <Form.Control
             type="text"
             placeholder="Sobrenome"
@@ -65,7 +65,7 @@ const Register: React.FC = () => {
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label>Nickname</Form.Label>
+
           <InputGroup>
             <InputGroup.Text>@</InputGroup.Text>
             <Form.Control
@@ -79,7 +79,7 @@ const Register: React.FC = () => {
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label>Email</Form.Label>
+
           <Form.Control
             type="email"
             placeholder="Email"
@@ -90,7 +90,7 @@ const Register: React.FC = () => {
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label>Senha</Form.Label>
+
           <Form.Control
             type="password"
             placeholder="Senha"
@@ -101,7 +101,7 @@ const Register: React.FC = () => {
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label>Confirme sua senha</Form.Label>
+
           <Form.Control
             type="password"
             placeholder="Confirme a senha"

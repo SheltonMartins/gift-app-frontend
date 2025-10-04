@@ -10,6 +10,7 @@ export const FooterContainer = styled.footer`
   font-family: 'Arial', sans-serif;
   position: relative;
   bottom: 0;
+  margin-top: 20px;
 `;
 
 export const FooterText = styled.p`
