@@ -27,9 +27,7 @@ const Home: React.FC = () => {
 
   return (
     <HomeContainer>
-            {showToast && (
-        <Toast>✨ Nova funcionalidade disponível: agora os amigos adicionados serão amizades autamaticamente recíprocas!</Toast>
-      )}
+
       <Title>Bem-vindo ao GiftApp!</Title>
       <Subtitle>
         Aqui você pode adicionar seus amigos e descobrir exatamente o que eles querem ganhar em qualquer data comemorativa! 
