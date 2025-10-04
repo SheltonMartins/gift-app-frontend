@@ -28,7 +28,10 @@ const FriendProfile: React.FC = () => {
   const navigate = useNavigate();
   const [friend, setFriend] = useState<Friend | null>(null);
   const [friendsCount, setFriendsCount] = useState<number>(0);
+  const [isMyFriend, setIsMyFriend] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [loadingAdd, setLoadingAdd] = useState<boolean>(false);
+  const [loadingRemove, setLoadingRemove] = useState<boolean>(false);
 
   const fetchFriend = async () => {
     try {
@@ -37,21 +40,45 @@ const FriendProfile: React.FC = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       setFriend(res.data);
-      console.log(res.data)
-    } catch {
-      setError('Erro ao carregar perfil do amigo');
+    } catch (err) {
+      console.error(err);
+      setError('Erro ao carregar perfil do usuário');
     }
   };
 
   const fetchFriendsCount = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await api.get(`/users/${id}/friends`, {
+      const res = await api.get(`/friends/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setFriendsCount(res.data.length);
-    } catch {
-      console.log("Erro ao carregar quantidade de amigos");
+      // res.data deve ser array de amigos (se a rota estiver correta)
+      if (Array.isArray(res.data)) setFriendsCount(res.data.length);
+      else if (res.data && res.data.length !== undefined) setFriendsCount(res.data.length);
+      else setFriendsCount(0);
+    } catch (err) {
+      console.log('Erro ao carregar quantidade de amigos', err);
+    }
+  };
+
+  const checkIfMyFriend = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const myId = localStorage.getItem('userId');
+      if (!myId) return;
+
+      const res = await api.get(`/friends`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      // rota /friends retorna meus amigos (array)
+      if (Array.isArray(res.data)) {
+        const exists = res.data.some((f: Friend) => f.id === Number(id));
+        setIsMyFriend(exists);
+      } else {
+        setIsMyFriend(false);
+      }
+    } catch (err) {
+      console.log('Erro ao verificar amizade', err);
     }
   };
 
@@ -59,20 +86,53 @@ const FriendProfile: React.FC = () => {
     if (id) {
       fetchFriend();
       fetchFriendsCount();
+      checkIfMyFriend();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const handleRemoveFriend = async () => {
     if (!id) return;
+    setLoadingRemove(true);
     try {
       const token = localStorage.getItem('token');
       await api.delete(`/friends/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       alert('Amizade removida!');
-      navigate(`/profile/${localStorage.getItem('userId')}`);
+      setIsMyFriend(false);
+      await fetchFriendsCount();
     } catch (err: any) {
-      alert(err.response?.data.error || 'Erro ao remover amizade');
+      alert(err.response?.data?.error || 'Erro ao remover amizade');
+    } finally {
+      setLoadingRemove(false);
+    }
+  };
+
+  const handleAddFriend = async () => {
+    if (!friend) return;
+    if (!friend.nickname) {
+      alert('Não foi possível adicionar: este usuário não possui nickname disponível.');
+      return;
+    }
+
+    setLoadingAdd(true);
+    try {
+      const token = localStorage.getItem('token');
+      // usa a mesma rota que funciona no Profile (adicionar por nickname)
+      await api.post(
+        `/friends`,
+        { nickname: friend.nickname },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      alert('Amizade adicionada!');
+      setIsMyFriend(true);
+      await fetchFriendsCount();
+    } catch (err: any) {
+      console.error(err);
+      alert(err.response?.data?.error || 'Erro ao adicionar amizade');
+    } finally {
+      setLoadingAdd(false);
     }
   };
 
@@ -82,7 +142,9 @@ const FriendProfile: React.FC = () => {
   return (
     <Container>
       <Header>
-        {friend.profile_picture && <ProfileImage src={friend.profile_picture} alt={friend.name} />}
+        {friend.profile_picture && (
+          <ProfileImage src={friend.profile_picture} alt={friend.name} />
+        )}
         <div>
           <Name>{friend.name}</Name>
           {friend.nickname && <Nickname>@{friend.nickname}</Nickname>}
@@ -90,22 +152,34 @@ const FriendProfile: React.FC = () => {
         </div>
       </Header>
 
-      <GiftsSection>
-        <h3>Lista de Presentes</h3>
-        <GiftsList userId={friend.id} />
-      </GiftsSection>
-
       <ButtonsContainer>
         <Button onClick={() => navigate(`/profile/${localStorage.getItem('userId')}`)}>
           Voltar ao meu perfil
         </Button>
+
         <Button onClick={() => navigate(`/friends-of/${friend.id}`)}>
-          Ver amigos de {friend.name} 
+          Ver amigos de {friend.name} ({friendsCount})
         </Button>
-        <Button danger onClick={handleRemoveFriend}>
-          Remover amizade
-        </Button>
+
+        {isMyFriend ? (
+          <Button danger onClick={handleRemoveFriend} disabled={loadingRemove}>
+            {loadingRemove ? 'Removendo...' : 'Remover amizade'}
+          </Button>
+        ) : (
+          <Button
+            onClick={handleAddFriend}
+            disabled={loadingAdd || !friend.nickname}
+            title={!friend.nickname ? 'Usuário não tem nickname' : undefined}
+          >
+            {loadingAdd ? 'Adicionando...' : 'Adicionar amizade'}
+          </Button>
+        )}
       </ButtonsContainer>
+
+      <GiftsSection>
+        <h3>Lista de Presentes</h3>
+        <GiftsList userId={friend.id} />
+      </GiftsSection>
     </Container>
   );
 };

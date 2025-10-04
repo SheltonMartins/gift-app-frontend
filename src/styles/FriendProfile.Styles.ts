@@ -44,6 +44,7 @@ export const Bio = styled.p`
 
 export const GiftsSection = styled.div`
   margin-top: 30px;
+
 `;
 
 export const ButtonsContainer = styled.div`
