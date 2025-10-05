@@ -15,17 +15,23 @@ interface Gift {
 
 interface GiftsListProps {
   userId: number;
+  refreshTrigger?: number; // usado pra forçar reload
+  newGift?: Gift | null;   // pra adicionar sem refetch
 }
 
-const GiftsList: React.FC<GiftsListProps> = ({ userId }) => {
+const GiftsList: React.FC<GiftsListProps> = ({ userId, refreshTrigger, newGift }) => {
   const [gifts, setGifts] = useState<Gift[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const currentUserId = Number(localStorage.getItem('userId'));
+
+  const currentUser = localStorage.getItem('user');
+  const currentUserId = currentUser ? JSON.parse(currentUser).id : null;
 
   const fetchGifts = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await api.get(`/gifts/${userId}`, { headers: { Authorization: `Bearer ${token}` } });
+      const res = await api.get(`/gifts/${userId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setGifts(res.data);
     } catch {
       setError('Erro ao carregar presentes');
@@ -34,13 +40,22 @@ const GiftsList: React.FC<GiftsListProps> = ({ userId }) => {
 
   useEffect(() => {
     fetchGifts();
-  }, [userId]);
+  }, [userId, refreshTrigger]);
+
+  // ✅ se um novo presente for passado pelo Form, adiciona à lista sem refetch
+  useEffect(() => {
+    if (newGift) {
+      setGifts(prev => [newGift, ...prev]);
+    }
+  }, [newGift]);
 
   const handleDelete = async (giftId: number) => {
     if (!window.confirm('Excluir este presente?')) return;
     try {
       const token = localStorage.getItem('token');
-      await api.delete(`/gifts/${giftId}`, { headers: { Authorization: `Bearer ${token}` } });
+      await api.delete(`/gifts/${giftId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setGifts(prev => prev.filter(g => g.id !== giftId));
     } catch (err: any) {
       alert(err.response?.data?.error || 'Erro ao apagar presente');
@@ -59,7 +74,11 @@ const GiftsList: React.FC<GiftsListProps> = ({ userId }) => {
           description={gift.description}
           image_url={gift.image_url}
           product_link={gift.product_link}
-          onDelete={currentUserId === userId ? () => handleDelete(gift.id) : undefined}
+          onDelete={
+            currentUserId === gift.user_id
+              ? () => handleDelete(gift.id)
+              : undefined
+          }
         />
       ))}
     </GiftsContainer>

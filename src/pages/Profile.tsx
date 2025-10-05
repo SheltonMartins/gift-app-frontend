@@ -21,6 +21,7 @@ const Profile: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [friendNickname, setFriendNickname] = useState('');
+  const [newGift, setNewGift] = useState<any | null>(null);
 
   const userId = Number(id || (() => {
     const userStorage = localStorage.getItem('user');
@@ -51,7 +52,7 @@ const Profile: React.FC = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       setFriendNickname('');
-      fetchProfile(); // atualiza perfil
+      fetchProfile();
       alert('Nova amizade criada com sucesso!');
     } catch (err: any) {
       alert(err.response?.data.error || 'Erro ao adicionar amigo');
@@ -73,13 +74,16 @@ const Profile: React.FC = () => {
       </Card>
 
       <Card>
-        <SectionTitle>Adicionar Presente</SectionTitle>
-        <GiftForm userId={user.id} onGiftAdded={fetchProfile} />
+        <SectionTitle>Adicionar desejo de presente</SectionTitle>
+        <GiftForm
+          userId={user.id}
+          onGiftAdded={gift => setNewGift(gift)} // ✅ adiciona sem recarregar
+        />
       </Card>
 
       <Card>
         <SectionTitle>Minha Lista de Presentes</SectionTitle>
-        <GiftsList userId={user.id} />
+        <GiftsList userId={user.id} newGift={newGift} />
       </Card>
 
       <Card>
