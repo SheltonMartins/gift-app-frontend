@@ -7,7 +7,7 @@ export interface Gift {
   image_url?: string;
   product_link?: string;
   created_at?: string;
-  user_id?: number; // 👈 Adicione isto
+  userId?: number; 
   comments?: Comment[];
   onDelete?: () => void;
 }

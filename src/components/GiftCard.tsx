@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import api from '../services/api';
 import {
   Card,
+  CardHeader,
   Title,
   Description,
   Image,
@@ -10,11 +11,15 @@ import {
   AddCommentInput,
   AddCommentButton,
   CommentsContainer,
-  CommentItem
+  CommentItem,
+  DeleteButton,
 } from '../styles/GiftCard.Styles';
 import { Comment } from '../interfaces/CommentInterface';
 import { Gift } from '../interfaces/GiftInteface';
-
+import { FaCommentDots } from 'react-icons/fa';
+import { IconType } from 'react-icons';
+import arrowLeft from '../assets/arrow-return-left.svg'
+const CommentIcon = FaCommentDots as IconType;
 const GiftCard: React.FC<Gift> = ({
   id,
   title,
@@ -22,25 +27,23 @@ const GiftCard: React.FC<Gift> = ({
   image_url,
   product_link,
   onDelete,
-  user_id,
+  userId,
   comments = []
 }) => {
   const [showComments, setShowComments] = useState(false);
   const [newComment, setNewComment] = useState('');
   const [commentList, setCommentList] = useState<Comment[]>(comments);
 
-  // ⚡ Sincroniza o estado interno com os comentários recebidos da prop
   useEffect(() => {
     setCommentList(comments);
   }, [comments]);
 
   const user = localStorage.getItem('user');
   const loggedUserId = user ? JSON.parse(user).id : null;
-  const isOwner = loggedUserId === user_id;
+  const isOwner = loggedUserId === userId;
 
   const handleAddComment = async (e: React.FormEvent) => {
     e.preventDefault();
-    {alert('deu')}
     if (!newComment.trim()) return;
 
     try {
@@ -72,7 +75,13 @@ const GiftCard: React.FC<Gift> = ({
 
   return (
     <Card>
-      <Title>{title}</Title>
+      <CardHeader>
+        <Title>{title}</Title>
+        {isOwner && onDelete && (
+          <DeleteButton onClick={onDelete}>×</DeleteButton>
+        )}
+      </CardHeader>
+
       {description && <Description>{description}</Description>}
       {image_url && <Image src={image_url} alt={title} />}
       {product_link && (
@@ -102,16 +111,16 @@ const GiftCard: React.FC<Gift> = ({
 
           <AddCommentBox onSubmit={handleAddComment}>
             <AddCommentInput
-              placeholder="Comentar"
+              placeholder="Comentar..."
               value={newComment}
               onChange={e => setNewComment(e.target.value)}
             />
-            <AddCommentButton type="submit">Adicionar</AddCommentButton>
+            <AddCommentButton type="submit">
+              <img src={arrowLeft} alt="Comentar" />
+            </AddCommentButton>
           </AddCommentBox>
         </CommentsContainer>
       )}
-
-      {isOwner && onDelete && <AddCommentButton onClick={onDelete}>Apagar</AddCommentButton>}
     </Card>
   );
 };

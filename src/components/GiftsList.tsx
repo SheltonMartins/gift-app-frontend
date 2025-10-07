@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import GiftCard from './GiftCard';
 import { GiftsContainer } from '../styles/GiftsList.styles';
 import api from '../services/api';
-import { Comment } from '../interfaces/CommentInterface';
 import { Gift } from '../interfaces/GiftInteface';
 
 interface GiftsListProps {
@@ -21,8 +20,6 @@ const GiftsList: React.FC<GiftsListProps> = ({ userId, newGift }) => {
         headers: { Authorization: `Bearer ${token}` }
       });
 
-      //const gifts: Gift = res.data;
-
       const gifts: Gift[] = res.data.map((gift: any) => ({
         ...gift,
         comments: (gift.comments || []).map((c: any) => ({
@@ -33,7 +30,7 @@ const GiftsList: React.FC<GiftsListProps> = ({ userId, newGift }) => {
         }))
         
       }));
-      //console.log(giftsWithMappedComments)
+      //console.log(gifts)
 
       setGifts(gifts);
     } catch (err) {
@@ -72,6 +69,7 @@ const GiftsList: React.FC<GiftsListProps> = ({ userId, newGift }) => {
           image_url={gift.image_url}
           product_link={gift.product_link}
           comments={gift.comments}
+          userId={gift.userId}
           onDelete={() => handleDelete(gift.id)}
         />
       ))}

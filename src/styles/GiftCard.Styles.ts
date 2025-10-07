@@ -10,13 +10,42 @@ export const Card = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  position: relative;
 `;
 
-/* === Título e descrição === */
+/* === Cabeçalho do card (título + botão X) === */
+export const CardHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 export const Title = styled.h3`
   margin: 0;
   font-size: 1.2rem;
   font-weight: 600;
+`;
+
+/* === Botão vermelho de deletar no topo === */
+export const DeleteButton = styled.button`
+  background: #ff4d4f;
+  color: white;
+  border: none;
+  font-size: 1.1rem;
+  line-height: 1;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+
+  &:hover {
+    background: #d9363e;
+  }
 `;
 
 export const Description = styled.p`
@@ -35,30 +64,17 @@ export const Image = styled.img`
 
 export const ProductLink = styled.a`
   color: #0077ff;
+  padding: -100px;
+  margin: 0px;
   text-decoration: none;
-  font-weight: 500;
+  font-size: 12px;
+  font-weight: 50000px;
   &:hover {
     text-decoration: underline;
   }
 `;
 
-/* === Botão de deletar === */
-export const DeleteButton = styled.button`
-  background: #ff4d4f;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: background 0.2s;
-
-  &:hover {
-    background: #d9363e;
-  }
-`;
-
-/* === Container de comentários === */
+/* === Comentários === */
 export const CommentsContainer = styled.div`
   margin-top: 10px;
   border-top: 1px solid #ddd;
@@ -75,32 +91,40 @@ export const CommentItem = styled.p`
   font-size: 0.9rem;
 `;
 
-/* === Caixa para adicionar novo comentário === */
+/* === Caixa de novo comentário (reta, input + botão colados) === */
 export const AddCommentBox = styled.form`
   display: flex;
-  flex-direction: column;
-  gap: 6px;
+  align-items: stretch;
   margin-top: 10px;
 `;
 
 export const AddCommentInput = styled.input`
-  padding: 6px;
-  border-radius: 6px;
+  flex: 1;
   border: 1px solid #ccc;
-  width: 100%;
+  border-radius: 0;
+  padding: 8px;
+  font-size: 0.9rem;
+  border-right: none; /* cola com o botão */
+  outline: none;
+
+  &:focus {
+    border-color: #007bff;
+  }
 `;
 
 export const AddCommentButton = styled.button`
-  background: #333;
+  background: #007bff;
   color: white;
-  padding: 6px 10px;
-  border-radius: 6px;
-  border: none;
+  border: 1px solid #007bff;
+  border-radius: 0;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  transition: 0.2s;
 
   &:hover {
-    background: #111;
+    background: #0056b3;
   }
 
   &:disabled {
