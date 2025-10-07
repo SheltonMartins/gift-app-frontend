@@ -77,7 +77,7 @@ const Profile: React.FC = () => {
         <SectionTitle>Adicionar desejo de presente</SectionTitle>
         <GiftForm
           userId={user.id}
-          onGiftAdded={gift => setNewGift(gift)} // ✅ adiciona sem recarregar
+          onGiftAdded={gift => setNewGift(gift)}
         />
       </Card>
 

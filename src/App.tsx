@@ -11,6 +11,7 @@ import Footer from './components/Footer';
 import FriendsListPage from './pages/FriendsListPage';
 import FriendsOfFriendPage from './pages/FriendsOfFriendPage';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import GiftCommentsPage from './pages/GiftCommentsPage';
 
 const CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID || "";
 
@@ -26,8 +27,8 @@ const App: React.FC = () => {
           <Route path="/profile/:id" element={<Profile />} />
           <Route path="/friend/:id" element={<FriendProfile />} />
           <Route path="/friends/:id" element={<FriendsListPage />} />
-          <Route path="/friends/:id" element={<FriendsOfFriendPage />} />
           <Route path="/friends-of/:id" element={<FriendsOfFriendPage />} />
+          <Route path="/gift-comments/:giftId" element={<GiftCommentsPage />} />
         </Routes>
         <Footer/>
       </Router>

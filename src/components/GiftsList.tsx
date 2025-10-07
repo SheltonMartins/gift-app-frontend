@@ -1,64 +1,60 @@
 import React, { useEffect, useState } from 'react';
-import api from '../services/api';
 import GiftCard from './GiftCard';
 import { GiftsContainer } from '../styles/GiftsList.styles';
-
-interface Gift {
-  id: number;
-  user_id: number;
-  title: string;
-  description?: string;
-  image_url?: string;
-  product_link?: string;
-  created_at?: string;
-}
+import api from '../services/api';
+import { Comment } from '../interfaces/CommentInterface';
+import { Gift } from '../interfaces/GiftInteface';
 
 interface GiftsListProps {
   userId: number;
-  refreshTrigger?: number; // usado pra forçar reload
-  newGift?: Gift | null;   // pra adicionar sem refetch
+  newGift?: Gift | null;
 }
 
-const GiftsList: React.FC<GiftsListProps> = ({ userId, refreshTrigger, newGift }) => {
+const GiftsList: React.FC<GiftsListProps> = ({ userId, newGift }) => {
   const [gifts, setGifts] = useState<Gift[]>([]);
   const [error, setError] = useState<string | null>(null);
-
-  const currentUser = localStorage.getItem('user');
-  const currentUserId = currentUser ? JSON.parse(currentUser).id : null;
 
   const fetchGifts = async () => {
     try {
       const token = localStorage.getItem('token');
       const res = await api.get(`/gifts/${userId}`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${token}` }
       });
-      setGifts(res.data);
-    } catch {
+
+      //const gifts: Gift = res.data;
+
+      const gifts: Gift[] = res.data.map((gift: any) => ({
+        ...gift,
+        comments: (gift.comments || []).map((c: any) => ({
+          id: c.id,
+          text: c.text,
+          userName: c.userName,
+          createdAt: c.createdAt
+        }))
+        
+      }));
+      //console.log(giftsWithMappedComments)
+
+      setGifts(gifts);
+    } catch (err) {
+      console.error(err);
       setError('Erro ao carregar presentes');
     }
   };
 
   useEffect(() => {
     fetchGifts();
-  }, [userId, refreshTrigger]);
+  }, [userId]);
 
-  // ✅ se um novo presente for passado pelo Form, adiciona à lista sem refetch
-  useEffect(() => {
-    if (newGift) {
-      setGifts(prev => [newGift, ...prev]);
-    }
-  }, [newGift]);
 
   const handleDelete = async (giftId: number) => {
     if (!window.confirm('Excluir este presente?')) return;
     try {
       const token = localStorage.getItem('token');
-      await api.delete(`/gifts/${giftId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await api.delete(`/gifts/${giftId}`, { headers: { Authorization: `Bearer ${token}` } });
       setGifts(prev => prev.filter(g => g.id !== giftId));
-    } catch (err: any) {
-      alert(err.response?.data?.error || 'Erro ao apagar presente');
+    } catch (err) {
+      alert('Erro ao apagar presente');
     }
   };
 
@@ -70,15 +66,13 @@ const GiftsList: React.FC<GiftsListProps> = ({ userId, refreshTrigger, newGift }
       {gifts.map(gift => (
         <GiftCard
           key={gift.id}
+          id={gift.id}
           title={gift.title}
           description={gift.description}
           image_url={gift.image_url}
           product_link={gift.product_link}
-          onDelete={
-            currentUserId === gift.user_id
-              ? () => handleDelete(gift.id)
-              : undefined
-          }
+          comments={gift.comments}
+          onDelete={() => handleDelete(gift.id)}
         />
       ))}
     </GiftsContainer>
